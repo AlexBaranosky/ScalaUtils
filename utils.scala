@@ -8,6 +8,12 @@ object RichInt {
     implicit def int2RichInt(n: Int) = new RichInt(n)
 }
 
+object Closable {
+    def using[C <: {def close(): Unit}, T](closable: C)(body: C => T): T = {
+        try { body(closable) } finally { closable.close() }
+    }
+}
+
 object Main {
     import RichInt._
 
